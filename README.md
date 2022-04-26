@@ -10,6 +10,28 @@ The action can be called with
     first-branch: master
     second-branch: development
 ```
+### Setup
+Before we begin Github Actions pull without any commit history, lfs objects, submodules and such, which might be useful to you. The important thing is that this action cannot run without them as it will report false issues. In order to allow this you need to modify your checkout action to look like this
+```yaml
+- name: checking out code
+  uses: actions/checkout@v3
+  with:
+    ref: master
+    token: ${{ secrets.GITHUB_TOKEN }}
+    lfs: true
+    submodules: true
+    clean: false
+    fetch-depth: 0
+```
+to briefly explain if you don't know what any of this does:
+1. The `ref` field specifies the current branch to check out
+1. The `token` field is the toke with which github gains access to the repo, this token is predefined so you can leave the setting as is
+1. The `lfs` field enables [Git LFS](https://git-lfs.github.com/)
+1. The `submodules` field checks out the [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) in the repository if any
+1. The `clean` field makes github not run `git clean -ffdx && git reset --hard HEAD`
+1. The `fetch-depth` fields specifies how much of the commit history to download, at default it's set to `1` but when set to `0` it downloads the whole history instead of just 1 commit
+
+Once you have all this done you can move to the next step!
 ### Inputs
 The fields `first-branch` and `second-branch` are required because they store the names for the branches to compare.
 
