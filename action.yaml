@@ -7,7 +7,7 @@ inputs:
   upstream-url:
     description: "The URL to the upstream repository if the second branch is from another repo"
     required: false
-    default: "?"
+    default: null
   both-upstream:
     description: "A boolean to check if both branches are upstream"
     required: false
@@ -19,7 +19,7 @@ inputs:
   second-branch:
     description: "The name of the second branch to compare"
     required: true
-    default: "?"
+    default: null
 outputs:
   ahead:
     description: "The number of changes the first branch is ahead of the second"
@@ -35,14 +35,14 @@ runs:
       run: |
         git config --global user.name "github-actions
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        if [[ ${{ inputs.upstream-url }} == "?" ]]; then
+        if [[ ${{ inputs.upstream-url }} == null ]]; then
           echo "::set-output name=behind::$(git rev-list --count ${{ inputs.first-branch }}..${{ inputs.second-branch }})\n"
           echo "::set-output name=ahead::$(git rev-list --count ${{ inputs.second-branch }}..${{ inputs.first-branch }})\n"
         else
           git remote add upstream ${{ inputs.upstream-url }}
           git fetch
           git fetch upstream
-          if [[ ${{ inputs.both-upstream }} == true ]]
+          if [[ true == ${{ inputs.both-upstream }} ]]
             echo "::set-output name=behind::$(git rev-list --count upstream/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})\n"
             echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..upstream/${{ inputs.first-branch }})\n"
           else
