@@ -50,7 +50,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checking out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          token: ${{ secrets.GITHUB_TOKEN }}
+          lfs: true
+          submodules: true
+          clean: false
+          fetch-depth: 0
       - name: Extract commit data
         uses: rlespinasse/git-commit-data-action@v1.x
       - name: Check for synced branches action
