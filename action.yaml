@@ -1,6 +1,7 @@
 name: "Check for synced branches action"
 description: "An action to easily check if 2 branches are up to date"
-icon: git-branch
+branding:
+  icon: git-branch
 inputs:
   upstream-url:
     description: "The URL to the upstream repository if the second branch is from another repo"
