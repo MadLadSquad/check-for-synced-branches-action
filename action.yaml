@@ -23,7 +23,7 @@ inputs:
 outputs:
   ahead:
     description: "The number of changes the first branch is ahead of the second"
-    value: ${{ steps.random-number-generator.outputs.ahead }}
+    value: ${{ steps.check-on-upstream.outputs.ahead }}
   behind:
     description: "The number of changes the first branch is behind the second"
     value: ${{ steps.check-on-upstream.outputs.behind }}
