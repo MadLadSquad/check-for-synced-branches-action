@@ -36,7 +36,6 @@ runs:
         git config --global user.name "github-actions"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git fetch --all
-        git checkout master
         if [[ ${{ inputs.upstream-url }} == null ]]; then
           echo "::set-output name=behind::$(git rev-list --count ${{ inputs.first-branch }}..${{ inputs.second-branch }})"
           echo "::set-output name=ahead::$(git rev-list --count ${{ inputs.second-branch }}..${{ inputs.first-branch }})"
