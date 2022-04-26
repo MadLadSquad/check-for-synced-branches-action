@@ -33,7 +33,7 @@ runs:
     - id: "check-on-upstream"  
       shell: bash
       run: |
-        git config --global user.name "github-actions
+        git config --global user.name "github-actions"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         if [[ ${{ inputs.upstream-url }} == null ]]; then
           echo "::set-output name=behind::$(git rev-list --count ${{ inputs.first-branch }}..${{ inputs.second-branch }})\n"
