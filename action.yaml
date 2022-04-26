@@ -23,14 +23,14 @@ inputs:
 outputs:
   ahead:
     description: "The number of changes the first branch is ahead of the second"
-    value: ${{ steps.check-on-upstream.outputs.ahead }}
+    value: ${{ steps.check.outputs.ahead }}
   behind:
     description: "The number of changes the first branch is behind the second"
-    value: ${{ steps.check-on-upstream.outputs.behind }}
+    value: ${{ steps.check.outputs.behind }}
 runs:
   using: "composite"
   steps:
-    - id: "check-on-upstream"  
+    - id: check 
       shell: bash
       run: |
         git config --global user.name "github-actions"
@@ -50,5 +50,3 @@ runs:
             echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..origin/${{ inputs.first-branch }})\n"
           fi
         fi
-    - run: echo -e "\x1b[32mSuccessfully checked, ahead/behind: ${{ steps.check-on-upstream-outputs.ahead }}/${{ steps.check-on-upstream-outputs.behind }}\x1b[0m"
-      shell: bash
