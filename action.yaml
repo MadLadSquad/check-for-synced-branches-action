@@ -40,9 +40,8 @@ runs:
           echo "::set-output name=ahead::$(git rev-list --count ${{ inputs.second-branch }}..${{ inputs.first-branch }})"
         else
           echo -e "\x1b[32mSyncing repo with upstream ${{ inputs.upstream-url }}!\x1b[0m"
-          git remote add upstream ${{ inputs.upstream-url }}
-          git fetch
-          git fetch upstream
+          git remote add upstream ${{ inputs.upstream-url }}.git
+          git fetch --all
           if [[ true == ${{ inputs.both-upstream }} ]]; then
             echo -e "\x1b[32mSyncing repos with both being upstream\x1b[0m"
             echo "::set-output name=behind::$(git rev-list --count upstream/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})"
@@ -52,4 +51,5 @@ runs:
             echo "::set-output name=behind::$(git rev-list --count origin/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})"
             echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..origin/${{ inputs.first-branch }})"
           fi
+          git remote remove upstream
         fi
