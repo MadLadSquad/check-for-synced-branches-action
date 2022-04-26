@@ -42,7 +42,7 @@ runs:
           git remote add upstream ${{ inputs.upstream-url }}
           git fetch
           git fetch upstream
-          if [[ true == ${{ inputs.both-upstream }} ]]
+          if [[ true == ${{ inputs.both-upstream }} ]]; then
             echo "::set-output name=behind::$(git rev-list --count upstream/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})\n"
             echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..upstream/${{ inputs.first-branch }})\n"
           else
