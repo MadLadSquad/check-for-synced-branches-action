@@ -20,13 +20,9 @@ An additional field is the `both-upstream` bool, which when set to true will set
 The action outputs the `ahead` and `behind` integers, which can be used in your action if statements to enable and disable event such as creating an issue or pull request. Here is an example of an action that creates an issue when the `origin/master` branch is behind `upstream/master`
 ```yaml
 name: Create automatic issue
-env:
-  REPO_NAME: "kcat/openal-soft"
-  
 on:
   schedule:
     - cron:  "0 0 * * *"
-
 jobs:
   Update-Fork:
     runs-on: ubuntu-latest
@@ -39,7 +35,7 @@ jobs:
         id: check
         uses: MadLadSquad/check-for-synced-branches-action@master
         with:
-          upstream-url: "https://github.com/${{ env.REPO_NAME }}"
+          upstream-url: "https://github.com/kcat/openal-soft"
           first-branch: master
           second-branch: master
       - name: Issue
