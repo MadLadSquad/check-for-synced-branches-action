@@ -5,6 +5,10 @@ inputs:
     description: "The URL to the upstream repository if the second branch is from another repo"
     required: false
     default: null
+  both-upstream:
+    description: "A boolean to check if both branches are upstream"
+    required: false
+    default: false
   first-branch:
     description: "The name of the first branch in the comparison"
     required: true
@@ -12,23 +16,33 @@ inputs:
   second-branch:
     description: "The name of the second branch to compare"
     required: true
-    default: null
 outputs:
   ahead:
     description: "The number of changes the first branch is ahead of the second"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+    value: ${{ steps.random-number-generator.outputs.ahead }}
   behind:
     description: "The number of changes the first branch is behind the second"
-    value: ${{ steps. }}
+    value: ${{ steps.check-on-upstream.outputs.behind }}
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - id: "check-on-upstream"  
       shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-number::$(echo $RANDOM)"
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash          
-    - run: goodbye.sh
-      shell: bash
+      run: |
+        git config --global user.name "github-actions
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        if [[ ${{ inputs.upstream-url }} == "" ]]; then
+          echo "::set-output name=behind::$(git rev-list --count ${{ inputs.first-branch }}..${{ inputs.second-branch }})\n"
+          echo "::set-output name=ahead::$(git rev-list --count ${{ inputs.second-branch }}..${{ inputs.first-branch }})\n"
+        else
+          git remote add upstream ${{ inputs.upstream-url }}
+          git fetch
+          git fetch upstream
+          if [[ ${{ inputs.both-upstream }} == true ]]
+            echo "::set-output name=behind::$(git rev-list --count upstream/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})\n"
+            echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..upstream/${{ inputs.first-branch }})\n"
+          else
+            echo "::set-output name=behind::$(git rev-list --count origin/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})\n"
+            echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..origin/${{ inputs.first-branch }})\n"
+          fi
+        fi
