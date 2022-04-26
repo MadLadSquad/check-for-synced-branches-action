@@ -1,0 +1,34 @@
+name: "Check for synced branches action"
+description: "An action to easily check if 2 branches are up to date"
+inputs:
+  upstream-url:
+    description: "The URL to the upstream repository if the second branch is from another repo"
+    required: false
+    default: null
+  first-branch:
+    description: "The name of the first branch in the comparison"
+    required: true
+    default: "master"
+  second-branch:
+    description: "The name of the second branch to compare"
+    required: true
+    default: null
+outputs:
+  ahead:
+    description: "The number of changes the first branch is ahead of the second"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
+  behind:
+    description: "The number of changes the first branch is behind the second"
+    value: ${{ steps. }}
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash
+    - id: random-number-generator
+      run: echo "::set-output name=random-number::$(echo $RANDOM)"
+      shell: bash
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash          
+    - run: goodbye.sh
+      shell: bash
