@@ -50,5 +50,5 @@ runs:
             echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..origin/${{ inputs.first-branch }})\n"
           fi
         fi
-     - run: echo -e "\x1b[32mSuccessfully checked, ahead/behind: ${{ steps.check-on-upstream-outputs.ahead }}/${{ steps.check-on-upstream-outputs.behind }}\x1b[0m"
-       shell: bash
+    - run: echo -e "\x1b[32mSuccessfully checked, ahead/behind: ${{ steps.check-on-upstream-outputs.ahead }}/${{ steps.check-on-upstream-outputs.behind }}\x1b[0m"
+      shell: bash
