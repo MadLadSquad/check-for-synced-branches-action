@@ -9,7 +9,7 @@ An action to check if 2 branches are synced and output their differences if any
 The action can be called with
 ```yaml
 - name: Check for synced branches action
-  uses: MadLadSquad/check-for-synced-branches-action@v1.0.0.0
+  uses: MadLadSquad/check-for-synced-branches-action@v1.0.0.2
   with:
     upstream-url: "https://github.com/foo/foo"
     first-branch: master
