@@ -1,5 +1,10 @@
 # Check for synced branches action
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![trello](https://img.shields.io/badge/Trello-UDE-blue])](https://trello.com/b/HmfuRY2K/untitleddesktop)
+[![Discord](https://img.shields.io/discord/717037253292982315.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/4wgH8ZE)
+
 An action to check if 2 branches are synced and output their differences if any
+
 ## How to
 The action can be called with
 ```yaml
@@ -10,6 +15,7 @@ The action can be called with
     first-branch: master
     second-branch: development
 ```
+
 ### Setup
 Before we begin Github Actions pull without any commit history, lfs objects, submodules and such, which might be useful to you. The important thing is that this action cannot run without them as it will report false issues. In order to allow this you need to modify your checkout action to look like this
 ```yaml
@@ -32,12 +38,14 @@ to briefly explain if you don't know what any of this does:
 1. The `fetch-depth` fields specifies how much of the commit history to download, at default it's set to `1` but when set to `0` it downloads the whole history instead of just 1 commit
 
 Once you have all this done you can move to the next step!
+
 ### Inputs
 The fields `first-branch` and `second-branch` are required because they store the names for the branches to compare.
 
 The `upstream-url` field should contain the URL to a repository on github or anywhere else. If the field is not specified the action uses the `origin` remote
 
 An additional field is the `both-upstream` bool, which when set to true will set all the remotes to the `upstream` remote added by specifying the `upstream-url` field
+
 ### Outputs
 The action outputs the `ahead` and `behind` integers, which can be used in your action if statements to enable and disable event such as creating an issue or pull request. Here is an example of an action that creates an issue when the `origin/master` branch is behind `upstream/master`
 ```yaml
