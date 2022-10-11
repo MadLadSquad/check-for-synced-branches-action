@@ -37,20 +37,20 @@ runs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git fetch --all
         if [[ ${{ inputs.upstream-url }} == null ]]; then
-          echo "::set-output name=behind::$(git rev-list --count ${{ inputs.first-branch }}..${{ inputs.second-branch }})"
-          echo "::set-output name=ahead::$(git rev-list --count ${{ inputs.second-branch }}..${{ inputs.first-branch }})"
+          echo "behind=$(git rev-list --count ${{ inputs.first-branch }}..${{ inputs.second-branch }})" >> $GITHUB_OUTPUT
+          echo "ahead=$(git rev-list --count ${{ inputs.second-branch }}..${{ inputs.first-branch }})" >> $GITHUB_OUTPUT
         else
           echo -e "\x1b[32mSyncing repo with upstream ${{ inputs.upstream-url }}!\x1b[0m"
           git remote add upstream ${{ inputs.upstream-url }}.git
           git fetch --all
           if [[ true == ${{ inputs.both-upstream }} ]]; then
             echo -e "\x1b[32mSyncing repos with both being upstream\x1b[0m"
-            echo "::set-output name=behind::$(git rev-list --count upstream/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})"
-            echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..upstream/${{ inputs.first-branch }})"
+            echo "behind=$(git rev-list --count upstream/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})" >> $GITHUB_OUTPUT
+            echo "ahead=$(git rev-list --count upstream/${{ inputs.second-branch }}..upstream/${{ inputs.first-branch }})" >> $GITHUB_OUTPUT
           else
             echo -e "\x1b[32mSyncing repos with the second one being upstream!\x1b[0m"
-            echo "::set-output name=behind::$(git rev-list --count origin/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})"
-            echo "::set-output name=ahead::$(git rev-list --count upstream/${{ inputs.second-branch }}..origin/${{ inputs.first-branch }})"
+            echo "behind=$(git rev-list --count origin/${{ inputs.first-branch }}..upstream/${{ inputs.second-branch }})" >> $GITHUB_OUTPUT
+            echo "ahead=$(git rev-list --count upstream/${{ inputs.second-branch }}..origin/${{ inputs.first-branch }})" >> $GITHUB_OUTPUT
           fi
           git remote remove upstream
         fi
